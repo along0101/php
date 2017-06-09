@@ -1,0 +1,33 @@
+#使用国内网易镜像可以加快构建速度
+#FROM hub.c.163.com/library/php:fpm-alpine
+FROM php:fpm-alpine
+
+MAINTAINER Alu alu@xdreport.com
+
+#更改国内repo源，让构建速度更快。git和dockerhub自动构建所以注释掉，需要时取消注释
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+#安装GD依赖库
+RUN apk add --no-cache --virtual .build-deps \
+		freetype-dev \
+		libjpeg-turbo-dev \
+		libpng-dev \
+		libmcrypt-dev
+
+#添加php源码中的扩展，添加gd,mysqli,pdo-mysql,opcache,gettext,mcrypt等扩展
+RUN set -ex \
+	&& docker-php-ext-configure gd \
+		--with-freetype-dir=/usr/include/freetype2/freetype \
+		--with-jpeg-dir=/usr/include \
+		--with-png-dir=/usr/include \
+	&& docker-php-ext-install gd bcmath zip opcache iconv mcrypt pdo pdo_mysql mysqli 
+
+#Notice:执行apk del .build-deps 会让GD不能正常工作
+#rm -rf /usr/include缩小不了多少体积,0.01MB不到
+
+#redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+	&& pecl install redis-3.1.2 \
+	&& docker-php-ext-enable redis \
+	&& apk del .phpize-deps
+
