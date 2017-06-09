@@ -4,7 +4,7 @@ FROM php:fpm-alpine
 
 MAINTAINER Alu alu@xdreport.com
 
-#更改国内repo源，让构建速度更快。git和dockerhub自动构建所以注释掉，需要时取消注释
+#国内repo源，让本地构建速度更快。
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 #安装GD依赖库
@@ -21,9 +21,6 @@ RUN set -ex \
 		--with-jpeg-dir=/usr/include \
 		--with-png-dir=/usr/include \
 	&& docker-php-ext-install gd bcmath zip opcache iconv mcrypt pdo pdo_mysql mysqli 
-
-#Notice:执行apk del .build-deps 会让GD不能正常工作
-#rm -rf /usr/include缩小不了多少体积,0.01MB不到
 
 #redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
