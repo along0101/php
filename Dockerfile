@@ -1,9 +1,9 @@
-FROM php:7.2.3-fpm-alpine
+FROM php:7.1.15-fpm-alpine
 
 MAINTAINER Alu alu@xdreport.com
 
 #国内repo源，让本地构建速度更快。
-#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 #安装GD依赖库
 RUN apk add --no-cache --virtual .build-deps \
