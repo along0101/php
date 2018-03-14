@@ -1,6 +1,4 @@
-#使用国内网易镜像可以加快构建速度
-#FROM hub.c.163.com/library/php:fpm-alpine
-FROM php:fpm-alpine
+FROM php:7.2.3-fpm-alpine
 
 MAINTAINER Alu alu@xdreport.com
 
