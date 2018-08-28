@@ -22,7 +22,7 @@ RUN set -ex \
 
 #redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
-	&& pecl install redis-3.1.2 \
+	&& pecl install redis-3.1.2 swoole-4.0.4 \
 	&& docker-php-ext-enable redis \
 	&& apk del .phpize-deps
 
