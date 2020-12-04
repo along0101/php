@@ -3,7 +3,7 @@ FROM php:7.4.12-fpm-alpine
 MAINTAINER Alu alu@xdreport.com
 
 #国内repo源，让本地构建速度更快。
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 #安装GD依赖库
 RUN apk add --no-cache --virtual .build-deps \
@@ -22,7 +22,7 @@ RUN set -ex \
 
 #redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
-	&& pecl install redis-5.2.0 swoole-4.4.16 \
+	&& pecl install redis-5.2.0 \
 	&& docker-php-ext-enable redis \
 	&& apk del .phpize-deps
 
