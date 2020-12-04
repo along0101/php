@@ -1,4 +1,4 @@
-FROM php:7.1.15-fpm-alpine
+FROM php:7.4.12-fpm-alpine
 
 MAINTAINER Alu alu@xdreport.com
 
@@ -22,7 +22,7 @@ RUN set -ex \
 
 #redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
-	&& pecl install redis-3.1.2 swoole-4.0.4 \
+	&& pecl install redis-5.2.0 swoole-4.4.16 \
 	&& docker-php-ext-enable redis \
 	&& apk del .phpize-deps
 
