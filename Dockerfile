@@ -18,7 +18,7 @@ RUN set -ex \
 	&& docker-php-ext-configure gd \
 		--with-freetype=/usr/include/freetype2/freetype \
 		--with-jpeg=/usr/include \
-	&& docker-php-ext-install -j5 gd bcmath opcache iconv pdo pdo_mysql mysqli sockets calendar bz2
+	&& docker-php-ext-install -j5 gd bcmath opcache iconv pdo pdo_mysql mysqli sockets calendar bz2 zip
 
 #redis属于pecl扩展，需要使用pecl命令来安装，同时需要添加依赖的库
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
